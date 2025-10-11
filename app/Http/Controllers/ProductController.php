@@ -3,28 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    // Menampilkan semua produk
     public function index()
     {
-        $products = Product::with('category')->get();
+        $products = Product::all();
         return view('products.index', compact('products'));
     }
 
+    // Form tambah produk
     public function create()
     {
-        $categories = Category::all();
-        return view('products.create', compact('categories'));
+        return view('products.create');
     }
 
+    // Simpan produk baru
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'category_id' => 'nullable|exists:categories,id',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
@@ -32,7 +32,8 @@ class ProductController extends Controller
         ]);
 
         $data = $request->all();
-        if($request->hasFile('image')){
+
+        if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('products', 'public');
         }
 
@@ -41,17 +42,23 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Produk berhasil ditambahkan!');
     }
 
-    public function edit(Product $product)
+    // Halaman detail produk (tombol Beli di pembeli)
+    public function show(Product $product)
     {
-        $categories = Category::all();
-        return view('products.edit', compact('product', 'categories'));
+        return view('products.show', compact('product'));
     }
 
+    // Edit produk
+    public function edit(Product $product)
+    {
+        return view('products.edit', compact('product'));
+    }
+
+    // Update produk
     public function update(Request $request, Product $product)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'category_id' => 'nullable|exists:categories,id',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
@@ -59,7 +66,8 @@ class ProductController extends Controller
         ]);
 
         $data = $request->all();
-        if($request->hasFile('image')){
+
+        if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('products', 'public');
         }
 
@@ -68,6 +76,7 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Produk berhasil diperbarui!');
     }
 
+    // Hapus produk
     public function destroy(Product $product)
     {
         $product->delete();

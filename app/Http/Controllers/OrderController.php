@@ -3,62 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Models\Product;
 
 class OrderController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Tampilkan daftar pesanan
      */
     public function index()
     {
-        //
+        // Eager load product supaya nama produk bisa muncul
+        $orders = Order::with('product')->latest()->get();
+
+        return view('admin.orders', compact('orders'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Tampilkan detail pesanan
      */
-    public function create()
+    public function show($id)
     {
-        //
+        $order = Order::with('product')->findOrFail($id);
+        return view('admin.order_show', compact('order'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Hapus pesanan
      */
-    public function store(Request $request)
+    public function destroy($id)
     {
-        //
-    }
+        $order = Order::findOrFail($id);
+        $order->delete();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dihapus.');
     }
 }
