@@ -8,7 +8,9 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PembeliController;
 use App\Http\Controllers\CheckoutController;
 
-// Redirect root ke halaman admin
+// ---------------------------
+// REDIRECT ROOT
+// ---------------------------
 Route::get('/', function () {
     return redirect()->route('admin.index');
 });
@@ -28,6 +30,11 @@ Route::resource('orders', OrderController::class); // hanya untuk admin
 // ---------------------------
 Route::get('/pembeli', [PembeliController::class, 'index'])->name('pembeli.index');
 Route::get('/pembeli/orders', [PembeliController::class, 'orders'])->name('pembeli.orders');
+
+// Halaman Kontak
+Route::get('/pembeli/kontak', function () {
+    return view('pembeli.kontak'); // pastikan file blade ada
+})->name('pembeli.kontak');
 
 // ---------------------------
 // CHECKOUT
