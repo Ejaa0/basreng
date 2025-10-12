@@ -11,19 +11,41 @@
     @endif
 
     @if($orderCode)
-        <div class="p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
+        <div class="p-3 bg-gray-100 dark:bg-gray-700 rounded-lg mb-2">
             <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
                 Kode Pesanan:
-                <span class="text-blue-600 dark:text-blue-400">{{ $orderCode }}</span>
+                <span id="orderCode" class="text-blue-600 dark:text-blue-400 cursor-pointer">{{ $orderCode }}</span>
             </p>
         </div>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
-            Simpan kode ini untuk melacak pesanan Anda.
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            Klik kode pesanan untuk menyalinnya.
         </p>
     @endif
 
-    <a href="{{ route('pembeli.index') }}" class="mt-6 inline-block bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+    <button id="copyButton" class="mb-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">
+        Salin Kode Pesanan
+    </button>
+
+    <a id="homeButton" href="{{ route('pembeli.index') }}" 
+       class="mt-6 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg opacity-50 pointer-events-none hover:bg-blue-600">
         Kembali ke Beranda
     </a>
 </div>
+
+<script>
+    const copyButton = document.getElementById('copyButton');
+    const orderCode = document.getElementById('orderCode');
+    const homeButton = document.getElementById('homeButton');
+
+    copyButton.addEventListener('click', () => {
+        // Salin kode pesanan ke clipboard
+        navigator.clipboard.writeText(orderCode.textContent).then(() => {
+            alert('Kode pesanan berhasil disalin!');
+            // Aktifkan tombol kembali ke beranda
+            homeButton.classList.remove('opacity-50', 'pointer-events-none');
+        }).catch(err => {
+            alert('Gagal menyalin kode pesanan: ' + err);
+        });
+    });
+</script>
 @endsection
