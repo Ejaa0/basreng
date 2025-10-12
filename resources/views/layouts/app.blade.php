@@ -21,9 +21,7 @@
             <a href="{{ route('products.index') }}" class="block px-6 py-3 hover:bg-green-100 rounded transition duration-200">
                 Produk
             </a>
-            <a href="{{ route('categories.index') }}" class="block px-6 py-3 hover:bg-green-100 rounded transition duration-200">
-                Kategori
-            </a>
+            
             <a href="{{ route('orders.index') }}" class="block px-6 py-3 hover:bg-green-100 rounded transition duration-200">
                 Pesanan
             </a>

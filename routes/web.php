@@ -8,41 +8,31 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PembeliController;
 use App\Http\Controllers\CheckoutController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Semua route aplikasi didefinisikan di sini.
-| Pastikan urutan route aman agar tidak terjadi konflik.
-|
-*/
-
 // Redirect root ke halaman admin
 Route::get('/', function () {
     return redirect()->route('admin.index');
 });
 
-// Halaman admin utama
+// ---------------------------
+// ROUTE ADMIN
+// ---------------------------
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
-// Resource routes
+// Resource routes untuk admin
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
-Route::resource('orders', OrderController::class);
+Route::resource('orders', OrderController::class); // hanya untuk admin
 
-// Halaman pembeli
+// ---------------------------
+// ROUTE PEMBELI
+// ---------------------------
 Route::get('/pembeli', [PembeliController::class, 'index'])->name('pembeli.index');
+Route::get('/pembeli/orders', [PembeliController::class, 'orders'])->name('pembeli.orders');
 
 // ---------------------------
-// Checkout Routes
+// CHECKOUT
 // ---------------------------
-
-// Halaman checkout sukses harus diletakkan **di atas** route dengan {id}
+// urutan ini PENTING — success HARUS di atas {id}
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
-
-// Form checkout berdasarkan produk
 Route::get('/checkout/{id}', [CheckoutController::class, 'show'])->name('checkout.show');
-
-// Submit checkout
 Route::post('/checkout/{id}', [CheckoutController::class, 'store'])->name('checkout.store');

@@ -56,8 +56,34 @@
             <label class="block text-gray-700 font-medium mb-2">
                 Produk:
             </label>
-            <p class="p-2 border rounded-lg bg-gray-50">
-                {{ $product->name }} - <span class="font-semibold text-green-700">Rp{{ number_format($product->price, 0, ',', '.') }}</span>
+            <p class="p-2 border rounded-lg bg-gray-50 flex justify-between items-center">
+                <span>{{ $product->name }}</span>
+                <span class="font-semibold text-green-700" id="product_price" data-price="{{ $product->price }}">
+                    Rp{{ number_format($product->price, 0, ',', '.') }}
+                </span>
+            </p>
+        </div>
+
+        {{-- Jumlah Pesanan --}}
+        <div>
+            <label for="quantity" class="block text-gray-700 font-medium mb-2">
+                Jumlah Pesanan:
+            </label>
+            <input 
+                type="number" 
+                id="quantity" 
+                name="quantity"
+                class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500"
+                value="1" min="1" required>
+        </div>
+
+        {{-- Total Harga --}}
+        <div>
+            <label class="block text-gray-700 font-medium mb-2">
+                Total Harga:
+            </label>
+            <p id="total_price" class="p-2 border rounded-lg bg-gray-50 font-semibold text-green-700">
+                Rp{{ number_format($product->price, 0, ',', '.') }}
             </p>
         </div>
 
@@ -115,7 +141,21 @@
         const paymentInfo = document.getElementById('payment_info');
         const paymentText = document.getElementById('payment_text');
         const buktiSection = document.getElementById('bukti_transfer_section');
+        const quantityInput = document.getElementById('quantity');
+        const productPrice = document.getElementById('product_price');
+        const totalPriceDisplay = document.getElementById('total_price');
 
+        // Update total harga otomatis
+        function updateTotal() {
+            const price = parseInt(productPrice.dataset.price);
+            const qty = parseInt(quantityInput.value);
+            const total = price * qty;
+            totalPriceDisplay.textContent = 'Rp' + total.toLocaleString('id-ID');
+        }
+
+        quantityInput.addEventListener('input', updateTotal);
+
+        // Informasi metode pembayaran
         paymentSelect.addEventListener('change', function () {
             const method = this.value;
             let message = '';
@@ -135,11 +175,10 @@
                     break;
             }
 
-            // tampilkan info pembayaran
             paymentInfo.classList.remove('hidden');
             paymentText.textContent = message;
 
-            // tampilkan / sembunyikan form bukti transfer
+            // Tampilkan / sembunyikan bukti transfer
             if (method === 'cod') {
                 buktiSection.classList.add('hidden');
             } else {

@@ -16,13 +16,14 @@
         <table class="min-w-full bg-white shadow rounded-lg">
             <thead>
                 <tr class="bg-gray-100 text-gray-700 uppercase text-sm">
+                    <th class="px-6 py-3 text-left">Kode Order</th> {{-- ✅ Tambahan --}}
                     <th class="px-6 py-3 text-left">Customer</th>
                     <th class="px-6 py-3 text-left">No. Telp</th>
                     <th class="px-6 py-3 text-left">Metode Pembayaran</th>
                     <th class="px-6 py-3 text-left">Produk</th>
                     <th class="px-6 py-3 text-left">Jumlah</th>
                     <th class="px-6 py-3 text-left">Total Harga</th>
-                    <th class="px-6 py-3 text-left">Bukti Transfer</th> {{-- Kolom baru --}}
+                    <th class="px-6 py-3 text-left">Bukti Transfer</th>
                     <th class="px-6 py-3 text-left">Tanggal</th>
                     <th class="px-6 py-3 text-left">Aksi</th>
                 </tr>
@@ -30,6 +31,9 @@
             <tbody>
                 @forelse($orders as $order)
                     <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="px-6 py-3 font-mono text-sm text-gray-700">
+                            {{ $order->order_code ?? '-' }}
+                        </td> {{-- ✅ Menampilkan kode order --}}
                         <td class="px-6 py-3">{{ $order->customer_name }}</td>
                         <td class="px-6 py-3">{{ $order->customer_phone }}</td>
                         <td class="px-6 py-3">{{ strtoupper(str_replace('_', ' ', $order->payment_method)) }}</td>
@@ -60,7 +64,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="9" class="text-center px-6 py-4 text-gray-500">Belum ada pesanan.</td>
+                        <td colspan="10" class="text-center px-6 py-4 text-gray-500">Belum ada pesanan.</td>
                     </tr>
                 @endforelse
             </tbody>
