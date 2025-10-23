@@ -98,9 +98,9 @@
                 required
                 class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500">
                 <option value="" disabled selected>Pilih metode pembayaran</option>
-                <option value="transfer_bank">Transfer Bank (BCA, BNI, Mandiri)</option>
+                <option value="mandiri">Transfer Mandiri</option>
                 <option value="gopay">GoPay</option>
-                <option value="dana">Dana</option>
+                <option value="dana">DANA</option>
                 <option value="cod">Bayar di Tempat (COD)</option>
             </select>
         </div>
@@ -161,17 +161,15 @@
             let message = '';
 
             switch (method) {
-                case 'transfer_bank':
-                    message = 'Silakan transfer ke rekening BCA 1234567890 a.n. Basreng & Dessert.';
+                case 'mandiri':
+                    message = 'Silakan transfer ke Mandiri: 1760001933181';
                     break;
                 case 'gopay':
-                    message = 'Silakan kirim pembayaran ke GoPay 0812-3456-7890 a.n. Basreng & Dessert.';
-                    break;
                 case 'dana':
-                    message = 'Silakan kirim pembayaran ke Dana 0812-3456-7890 a.n. Basreng & Dessert.';
+                    message = 'Silakan transfer ke DANA / GoPay: 081223236894';
                     break;
                 case 'cod':
-                    message = 'Pembayaran dilakukan di tempat saat barang diterima.';
+                    message = 'Pembayaran dilakukan di tempat saat barang diterima (COD).';
                     break;
             }
 

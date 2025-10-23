@@ -24,9 +24,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        // Cari pesanan dengan relasi produk, jika tidak ditemukan tampilkan 404
         $order = Order::with('product')->findOrFail($id);
-
         return view('admin.order_show', compact('order'));
     }
 
@@ -35,27 +33,22 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        // Cari pesanan, jika tidak ditemukan tampilkan 404
         $order = Order::findOrFail($id);
-
-        // Hapus data pesanan
         $order->delete();
-
-        // Redirect kembali ke halaman daftar pesanan dengan pesan sukses
         return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dihapus.');
     }
 
     /**
-     * (Opsional) Tambahkan pesanan baru - jika nanti ingin ada fitur create
+     * Tambahkan pesanan baru (opsional)
      */
     public function create()
     {
-        $products = Product::all(); // untuk dropdown pilihan produk
+        $products = Product::all();
         return view('admin.order_create', compact('products'));
     }
 
     /**
-     * (Opsional) Simpan pesanan baru ke database
+     * Simpan pesanan baru (opsional)
      */
     public function store(Request $request)
     {
@@ -67,7 +60,6 @@ class OrderController extends Controller
 
         $product = Product::findOrFail($request->product_id);
 
-        // Hitung total harga
         $totalPrice = $product->price * $request->quantity;
 
         Order::create([
@@ -75,8 +67,26 @@ class OrderController extends Controller
             'product_id'    => $product->id,
             'quantity'      => $request->quantity,
             'total_price'   => $totalPrice,
+            'status'        => 'pending', // default status
         ]);
 
         return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dibuat.');
+    }
+
+    /**
+     * Update status pesanan
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+
+        $request->validate([
+            'status' => 'required|in:pending,paid,shipped,completed,cancelled',
+        ]);
+
+        $order->status = $request->status;
+        $order->save();
+
+        return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui!');
     }
 }

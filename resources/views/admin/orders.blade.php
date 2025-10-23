@@ -16,7 +16,7 @@
         <table class="min-w-full bg-white shadow rounded-lg">
             <thead>
                 <tr class="bg-gray-100 text-gray-700 uppercase text-sm">
-                    <th class="px-6 py-3 text-left">Kode Order</th> {{-- ✅ Tambahan --}}
+                    <th class="px-6 py-3 text-left">Kode Order</th>
                     <th class="px-6 py-3 text-left">Customer</th>
                     <th class="px-6 py-3 text-left">No. Telp</th>
                     <th class="px-6 py-3 text-left">Metode Pembayaran</th>
@@ -24,6 +24,7 @@
                     <th class="px-6 py-3 text-left">Jumlah</th>
                     <th class="px-6 py-3 text-left">Total Harga</th>
                     <th class="px-6 py-3 text-left">Bukti Transfer</th>
+                    <th class="px-6 py-3 text-left">Status</th>
                     <th class="px-6 py-3 text-left">Tanggal</th>
                     <th class="px-6 py-3 text-left">Aksi</th>
                 </tr>
@@ -31,9 +32,7 @@
             <tbody>
                 @forelse($orders as $order)
                     <tr class="border-b border-gray-200 hover:bg-gray-50">
-                        <td class="px-6 py-3 font-mono text-sm text-gray-700">
-                            {{ $order->order_code ?? '-' }}
-                        </td> {{-- ✅ Menampilkan kode order --}}
+                        <td class="px-6 py-3 font-mono text-sm text-gray-700">{{ $order->order_code ?? '-' }}</td>
                         <td class="px-6 py-3">{{ $order->customer_name }}</td>
                         <td class="px-6 py-3">{{ $order->customer_phone }}</td>
                         <td class="px-6 py-3">{{ strtoupper(str_replace('_', ' ', $order->payment_method)) }}</td>
@@ -50,6 +49,23 @@
                                 <span class="text-gray-400">-</span>
                             @endif
                         </td>
+
+                        {{-- Form update status --}}
+                        <td class="px-6 py-3">
+                            <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <select name="status" onchange="this.form.submit()" 
+                                        class="border rounded px-2 py-1 text-sm">
+                                    <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="paid" {{ $order->status == 'paid' ? 'selected' : '' }}>Paid</option>
+                                    <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>Shipped</option>
+                                    <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                    <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                </select>
+                            </form>
+                        </td>
+
                         <td class="px-6 py-3">{{ $order->created_at->format('d-m-Y H:i') }}</td>
                         <td class="px-6 py-3">
                             <a href="{{ route('orders.show', $order->id) }}"
@@ -64,7 +80,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="10" class="text-center px-6 py-4 text-gray-500">Belum ada pesanan.</td>
+                        <td colspan="11" class="text-center px-6 py-4 text-gray-500">Belum ada pesanan.</td>
                     </tr>
                 @endforelse
             </tbody>
