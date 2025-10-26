@@ -9,29 +9,41 @@
 <body class="flex bg-gray-100 text-gray-800">
 
     <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-md min-h-screen">
+    <aside class="w-64 bg-white shadow-md min-h-screen relative">
         <div class="p-6 border-b border-gray-200">
             <h2 class="text-2xl font-bold text-green-600">Basreng & Dessert</h2>
         </div>
 
         <nav class="mt-6">
-            <a href="{{ route('admin.index') }}" class="block px-6 py-3 hover:bg-green-100 rounded transition duration-200">
+            <!-- Dashboard -->
+            <a href="{{ route('admin.index') }}" 
+               class="block px-6 py-3 hover:bg-green-100 rounded transition duration-200">
                 Dashboard
             </a>
-            <a href="{{ route('products.index') }}" class="block px-6 py-3 hover:bg-green-100 rounded transition duration-200">
+
+            <!-- Produk -->
+            <a href="{{ route('admin.products.index') }}" 
+               class="block px-6 py-3 hover:bg-green-100 rounded transition duration-200">
                 Produk
             </a>
-            
-            <a href="{{ route('orders.index') }}" class="block px-6 py-3 hover:bg-green-100 rounded transition duration-200">
+
+            <!-- Pesanan -->
+            <a href="{{ route('admin.orders.index') }}" 
+               class="block px-6 py-3 hover:bg-green-100 rounded transition duration-200">
                 Pesanan
             </a>
-            <a href="#" class="block px-6 py-3 hover:bg-green-100 rounded transition duration-200">
+
+            <!-- Laporan (belum ada route-nya, nanti bisa ditambah) -->
+            <a href="#" 
+               class="block px-6 py-3 hover:bg-green-100 rounded transition duration-200">
                 Laporan
             </a>
         </nav>
 
+        <!-- Tombol Logout -->
         <div class="absolute bottom-0 w-64 p-6 border-t border-gray-200">
-            <a href="#" class="block text-red-500 hover:underline">Logout</a>
+            <a href="{{ route('logout') }}" 
+               class="block text-red-500 hover:underline">Logout</a>
         </div>
     </aside>
 

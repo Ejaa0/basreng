@@ -6,7 +6,7 @@
 <div class="p-6">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-green-600">Daftar Produk</h1>
-        <a href="{{ route('products.create') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200">
+        <a href="{{ route('admin.products.create') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200">
             Tambah Produk
         </a>
     </div>
@@ -44,8 +44,8 @@
                         <td class="px-4 py-2">Rp {{ number_format($product->price,0,',','.') }}</td>
                         <td class="px-4 py-2">{{ $product->stock }}</td>
                         <td class="px-4 py-2">
-                            <a href="{{ route('products.edit', $product->id) }}" class="text-blue-500 hover:underline">Edit</a>
-                            <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline-block ml-2" onsubmit="return confirm('Yakin hapus?')">
+                            <a href="{{ route('admin.products.edit', $product->id) }}" class="text-blue-500 hover:underline">Edit</a>
+                            <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="inline-block ml-2" onsubmit="return confirm('Yakin hapus?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-500 hover:underline">Hapus</button>

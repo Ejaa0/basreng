@@ -16,7 +16,7 @@
                     <div
                         class="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transform hover:-translate-y-1 transition duration-300">
 
-                        <!-- Gambar Produk -->
+                        {{-- Gambar Produk --}}
                         @if ($product->image)
                             <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                                 class="w-full h-56 object-cover transition-transform duration-300 hover:scale-105">
@@ -26,17 +26,18 @@
                             </div>
                         @endif
 
-                        <!-- Detail Produk -->
+                        {{-- Detail Produk --}}
                         <div class="p-4 flex flex-col justify-between h-48">
                             <div>
                                 <h3 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ $product->name }}</h3>
-                                <p class="text-green-600 font-bold text-xl mb-1">Rp
-                                    {{ number_format($product->price, 0, ',', '.') }}</p>
+                                <p class="text-green-600 font-bold text-xl mb-1">
+                                    Rp {{ number_format($product->price, 0, ',', '.') }}
+                                </p>
                                 <p class="text-gray-600 text-sm">Stok: {{ $product->stock }}</p>
                             </div>
 
-                            <!-- Tombol Beli -->
-                            <a href="{{ route('products.show', $product->id) }}"
+                            {{-- Tombol Beli --}}
+                            <a href="{{ url('/products/' . $product->id) }}"
                                 class="mt-4 inline-block w-full text-center bg-green-600 text-white font-semibold py-2 rounded-lg hover:bg-green-700 shadow-md hover:shadow-lg transition duration-300">
                                 Lihat Detail / Beli
                             </a>

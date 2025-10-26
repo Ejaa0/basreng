@@ -3,12 +3,11 @@
 @section('title', 'Tambah Produk')
 
 @section('content')
-<div class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-    <h1 class="text-2xl font-bold text-green-600 mb-6">Tambah Produk Baru</h1>
+<div class="p-6">
+    <h1 class="text-2xl font-bold text-green-600 mb-4">Tambah Produk Baru</h1>
 
-    <!-- Error Validation -->
     @if ($errors->any())
-        <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
+        <div class="bg-red-100 text-red-800 p-3 rounded mb-4">
             <ul class="list-disc list-inside">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -17,7 +16,7 @@
         </div>
     @endif
 
-    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+    <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
         @csrf
 
         <!-- Nama Produk -->
@@ -34,14 +33,14 @@
 
         <!-- Harga -->
         <div>
-            <label class="block font-semibold mb-1">Harga (Rp)</label>
-            <input type="number" name="price" value="{{ old('price') }}" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" step="100">
+            <label class="block font-semibold mb-1">Harga</label>
+            <input type="number" name="price" value="{{ old('price') }}" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
         </div>
 
         <!-- Stok -->
         <div>
             <label class="block font-semibold mb-1">Stok</label>
-            <input type="number" name="stock" value="{{ old('stock', 0) }}" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <input type="number" name="stock" value="{{ old('stock') }}" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
         </div>
 
         <!-- Gambar -->
@@ -50,9 +49,12 @@
             <input type="file" name="image" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
         </div>
 
-        <!-- Tombol Submit -->
-        <div>
-            <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition duration-200">
+        <!-- Tombol -->
+        <div class="flex justify-between">
+            <a href="{{ route('admin.products.index') }}" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500 transition duration-200">
+                Kembali
+            </a>
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200">
                 Simpan Produk
             </button>
         </div>

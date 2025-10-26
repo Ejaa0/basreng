@@ -13,14 +13,13 @@ class OrderController extends Controller
      */
     public function index()
     {
-        // Ambil semua pesanan dengan relasi produk
+        // Ambil semua pesanan beserta produk terkait
         $orders = Order::with('product')->latest()->get();
-
         return view('admin.orders', compact('orders'));
     }
 
     /**
-     * Tampilkan detail dari satu pesanan berdasarkan ID
+     * Tampilkan detail satu pesanan
      */
     public function show($id)
     {
@@ -35,11 +34,13 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->delete();
-        return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dihapus.');
+
+        // ✅ Ganti ke admin.orders.index
+        return redirect()->route('admin.orders.index')->with('success', 'Pesanan berhasil dihapus.');
     }
 
     /**
-     * Tambahkan pesanan baru (opsional)
+     * Form tambah pesanan (opsional)
      */
     public function create()
     {
@@ -59,7 +60,6 @@ class OrderController extends Controller
         ]);
 
         $product = Product::findOrFail($request->product_id);
-
         $totalPrice = $product->price * $request->quantity;
 
         Order::create([
@@ -67,14 +67,15 @@ class OrderController extends Controller
             'product_id'    => $product->id,
             'quantity'      => $request->quantity,
             'total_price'   => $totalPrice,
-            'status'        => 'pending', // default status
+            'status'        => 'pending',
         ]);
 
-        return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dibuat.');
+        // ✅ Ganti ke admin.orders.index
+        return redirect()->route('admin.orders.index')->with('success', 'Pesanan berhasil dibuat.');
     }
 
     /**
-     * Update status pesanan
+     * Update status pesanan (admin)
      */
     public function updateStatus(Request $request, $id)
     {

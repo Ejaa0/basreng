@@ -33,7 +33,7 @@
                 </p>
 
                 <!-- Tombol Beli Sekarang -->
-                <a href="{{ route('checkout.show', $product->id) }}"
+                <a href="{{ route('checkout.show', ['id' => $product->id]) }}"
                     class="block w-full text-center bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition duration-200">
                     🛒 Beli Sekarang
                 </a>
